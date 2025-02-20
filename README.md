@@ -36,7 +36,8 @@ After applying clustering, we extract the waveform clusters and visualize the re
 
 **Example Waveform Classification:**
 
-![Waveform Classification](./images/waveform_classification.png)
+![image](https://github.com/user-attachments/assets/68d705b6-facb-4b82-b51e-5510ecd0ba29)
+
 
 The left plot represents sea ice echoes, while the right plot corresponds to lead echoes. The peak intensity and spread provide insight into different surface properties.
 
