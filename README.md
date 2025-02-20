@@ -1,71 +1,96 @@
-# Sea-Ice and Lead Unsupervised Classification
+# Sea Ice and Lead Unsupervised Classification
+   - Use K-Means and GMM to identify distinct clusters in the dataset.
+   - Compare cluster assignments to ESA ground truth.
+**Evaluation**:
+   - Generate classification reports.
+   - Compute confusion matrices to measure accuracy.
 
-This project implements machine learning algorithms to differentiate between sea ice and lead using satellite imagery. The classification is based on Sentinel-3 altimetry data and is validated against ESA's ground truth classification. The project explores unsupervised classification methods, specifically K-means clustering and Gaussian Mixture Models (GMM), comparing their strengths and weaknesses.
+### Sample Code for GMM:
+```python
+from sklearn.mixture import GaussianMixture
+import matplotlib.pyplot as plt
+import numpy as np
 
-## Table of Contents
-- [Introduction to Unsupervised Learning](#introduction-to-unsupervised-learning)
-  - [K-means Clustering](#k-means-clustering)
-  - [Gaussian Mixture Models (GMM)](#gaussian-mixture-models-gmm)
-- [Getting Started](#getting-started)
-  - [Data Sources](#data-sources)
-- [Contact](#contact)
-- [Acknowledgments](#acknowledgments)
+# Sample data
+X = np.random.rand(100, 2)
 
-## Introduction to Unsupervised Learning
+# GMM model
+gmm = GaussianMixture(n_components=3)
+gmm.fit(X)
+y_gmm = gmm.predict(X)
 
-### K-means Clustering
-K-means is an unsupervised learning algorithm that partitions a dataset into k clusters. It assigns data points to the nearest cluster centroid and iteratively updates centroids to minimize within-cluster variation.
+# Plotting
+plt.scatter(X[:, 0], X[:, 1], c=y_gmm, cmap='viridis')
+centers = gmm.means_
+plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
+plt.title("Gaussian Mixture Model")
+plt.show()
+```
 
-#### Why K-means for Clustering?
-- No prior knowledge about data distribution required.
-- Simple and scalable for large datasets.
+---
 
-#### Key Components of K-means
-- **Choosing K**: The number of clusters is predefined.
-- **Centroid Initialization**: Affects final clustering.
-- **Assignment Step**: Assigns each point to the nearest centroid.
-- **Update Step**: Updates centroids based on assigned points.
+## Results
+### Clustering Outcomes
 
-#### Advantages of K-means
-- Computational efficiency.
-- Easily interpretable clustering results.
+After applying clustering, we extract the waveform clusters and visualize the results.
 
-### Gaussian Mixture Models (GMM)
-GMM assumes the dataset comprises multiple Gaussian distributions, allowing soft clustering by estimating the probability of each data point belonging to different clusters.
+**Example Waveform Classification:**
 
-#### Why Gaussian Mixture Models for Clustering?
-- Provides probabilistic clustering instead of hard assignment.
-- More flexible covariance structure, allowing clusters to take various shapes.
+![Waveform Classification](./images/waveform_classification.png)
 
-#### Key Components of GMM
-- **Number of Components**: Similar to K in K-means, defines the number of Gaussian distributions.
-- **Expectation-Maximization (EM) Algorithm**: Iteratively updates model parameters to maximize likelihood.
-- **Covariance Type**: Determines the flexibility of cluster shapes.
+The left plot represents sea ice echoes, while the right plot corresponds to lead echoes. The peak intensity and spread provide insight into different surface properties.
 
-#### Advantages of GMM
-- Suitable for datasets with overlapping clusters.
-- Captures complex distributions better than K-means.
+### Clustered Data Scatter Plot
 
-## Getting Started
+Scatter plots of clustered data using key Sentinel-3 features:
 
-This project is implemented in **Google Colab**, leveraging cloud-based resources for computation.
+![Clustered Data](./images/scatter_plot.png)
 
+#### Comparison with ESA Data
+To validate the clustering results, we compute a confusion matrix:
+```python
+from sklearn.metrics import confusion_matrix, classification_report
 
-### Data Sources
-The dataset consists of Sentinel-2 optical data and Sentinel-3 OLCI data. These data files can be retrieved from the **Copernicus Data Space** following the steps outlined in [Data Fetching](https://dataspace.copernicus.eu/).
+true_labels = flag_cleaned - 1  # Adjust ESA labels
+predicted_gmm = clusters_gmm  # Predicted GMM clusters
 
-**Sentinel-2 Optical Data:**
-- `S2A_MSIL1C_20190301T235611_N0207_R116_T01WCU_20190302T014622.SAFE`
+conf_matrix = confusion_matrix(true_labels, predicted_gmm)
+print("Confusion Matrix:")
+print(conf_matrix)
 
-**Sentinel-3 OLCI Data:**
-- `S3B_SR_2_LAN_SI_20190301T231304_20190301T233006_20230405T162425_1021_022_301_____LN3_R_NT_005.SEN3`
+class_report = classification_report(true_labels, predicted_gmm)
+print("Classification Report:")
+print(class_report)
+```
+
+---
+
+## Installation
+To run this project, install the required dependencies:
+```bash
+pip install rasterio
+pip install netCDF4
+```
+
+---
+
+## Data
+The dataset is extracted from Sentinel-3 satellite data using the Copernicus Data Space.
+
+Example files:
+- **Sentinel-2 Optical Data**: `S2A_MSIL1C_20190301T235611_N0207_R116_T01WCU_20190302T014622.SAFE`
+- **Sentinel-3 OLCI Data**: `S3B_SR_2_LAN_SL_20190301T231304_20190301T233006_20230405T162425_1021_022_301______LN3_R_NT_005.SEN3`
+
+---
 
 ## Contact
-For questions or collaborations, reach out to:
+For questions or contributions, contact:
+- **Project Author**: Affan Mazlan
+- **Email**: zcfbabi@ucl.ac.uk
+- **Project Repository**: [GitHub Repository](https://github.com/affan1317/sea-ice-and-lead-unsupervised-learning)
 
-**Author:** [Your Name]  
-**Email:** [your_email@example.com]  
-**GitHub Repository:** [https://github.com/your_repo](https://github.com/your_repo)
+---
 
 ## Acknowledgments
-This project is developed as part of an academic assignment for the **GEOL0069** module at **UCL Earth Sciences Department**.
+- This project is part of an assignment for module **GEOLO069** taught at **UCL Earth Sciences Department**.
+- ESA and Copernicus Data Space provided Sentinel-3 altimetry data.
