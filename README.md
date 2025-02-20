@@ -109,7 +109,6 @@ Example files:
 For questions or contributions, contact:
 - **Project Author**: Yiheng Shi
 - **Email**: zcfbshi@ucl.ac.uk
-- **Project Repository**: [GitHub Repository](https://github.com/affan1317/sea-ice-and-lead-unsupervised-learning)
 
 ---
 
