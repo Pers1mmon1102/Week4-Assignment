@@ -36,7 +36,9 @@ After applying clustering, we extract the waveform clusters and visualize the re
 
 **Example Waveform Classification:**
 
-![image](https://github.com/user-attachments/assets/68d705b6-facb-4b82-b51e-5510ecd0ba29)
+![image](https://github.com/user-attachments/assets/b76806df-31b0-4c38-981b-955ed45528de)
+![image](https://github.com/user-attachments/assets/5a93179c-280d-4554-abda-0be06b79fa8e)
+
 
 
 The left plot represents sea ice echoes, while the right plot corresponds to lead echoes. The peak intensity and spread provide insight into different surface properties.
@@ -45,7 +47,8 @@ The left plot represents sea ice echoes, while the right plot corresponds to lea
 
 Scatter plots of clustered data using key Sentinel-3 features:
 
-![Clustered Data](./images/scatter_plot.png)
+![image](https://github.com/user-attachments/assets/8456718c-7385-4992-aab2-86e771befc85)
+
 
 #### Comparison with ESA Data
 To validate the clustering results, we compute a confusion matrix:
@@ -86,8 +89,8 @@ Example files:
 
 ## Contact
 For questions or contributions, contact:
-- **Project Author**: Affan Mazlan
-- **Email**: zcfbabi@ucl.ac.uk
+- **Project Author**: Yiheng Shi
+- **Email**: zcfbshi@ucl.ac.uk
 - **Project Repository**: [GitHub Repository](https://github.com/affan1317/sea-ice-and-lead-unsupervised-learning)
 
 ---
