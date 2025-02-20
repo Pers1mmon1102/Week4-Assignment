@@ -1,31 +1,31 @@
 # Sea Ice and Lead Unsupervised Classification
    - Use K-Means and GMM to identify distinct clusters in the dataset.
    - Compare cluster assignments to ESA ground truth.
-**Evaluation**:
    - Generate classification reports.
    - Compute confusion matrices to measure accuracy.
 
 ### Sample Code for GMM:
 ```python
-from sklearn.mixture import GaussianMixture
+# Python code for K-means clustering
+from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import numpy as np
 
 # Sample data
 X = np.random.rand(100, 2)
 
-# GMM model
-gmm = GaussianMixture(n_components=3)
-gmm.fit(X)
-y_gmm = gmm.predict(X)
+# K-means model
+kmeans = KMeans(n_clusters=4)
+kmeans.fit(X)
+y_kmeans = kmeans.predict(X)
 
 # Plotting
-plt.scatter(X[:, 0], X[:, 1], c=y_gmm, cmap='viridis')
-centers = gmm.means_
+plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, cmap='viridis')
+centers = kmeans.cluster_centers_
 plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5)
-plt.title("Gaussian Mixture Model")
 plt.show()
 ```
+![image](https://github.com/user-attachments/assets/e3aff6ef-910f-48d5-b4c8-ac62a2d330ad)
 
 ---
 
@@ -36,8 +36,8 @@ After applying clustering, we extract the waveform clusters and visualize the re
 
 **Example Waveform Classification:**
 
-![image](https://github.com/user-attachments/assets/b76806df-31b0-4c38-981b-955ed45528de)
-![image](https://github.com/user-attachments/assets/5a93179c-280d-4554-abda-0be06b79fa8e)
+![image](https://github.com/user-attachments/assets/92f8c9cf-5deb-4dde-b35a-0c08fecde820)
+![image](https://github.com/user-attachments/assets/50068d3a-00e7-4f2a-9f37-7cccd6db9c37)
 
 
 
@@ -48,24 +48,42 @@ The left plot represents sea ice echoes, while the right plot corresponds to lea
 Scatter plots of clustered data using key Sentinel-3 features:
 
 ![image](https://github.com/user-attachments/assets/8456718c-7385-4992-aab2-86e771befc85)
-
+![image](https://github.com/user-attachments/assets/b76806df-31b0-4c38-981b-955ed45528de)
+![image](https://github.com/user-attachments/assets/5a93179c-280d-4554-abda-0be06b79fa8e)
 
 #### Comparison with ESA Data
 To validate the clustering results, we compute a confusion matrix:
 ```python
 from sklearn.metrics import confusion_matrix, classification_report
 
-true_labels = flag_cleaned - 1  # Adjust ESA labels
-predicted_gmm = clusters_gmm  # Predicted GMM clusters
+true_labels = flag_cleaned_modified   # true labels from the ESA dataset
+predicted_gmm = clusters_gmm          # predicted labels from GMM method
 
+# Compute confusion matrix
 conf_matrix = confusion_matrix(true_labels, predicted_gmm)
+
+# Print confusion matrix
 print("Confusion Matrix:")
 print(conf_matrix)
 
+# Compute classification report
 class_report = classification_report(true_labels, predicted_gmm)
-print("Classification Report:")
+
+# Print classification report
+print("\nClassification Report:")
 print(class_report)
 ```
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         0.0       1.00      1.00      1.00      8878
+         1.0       0.99      0.99      0.99      3317
+
+    accuracy                           1.00     12195
+   macro avg       1.00      1.00      1.00     12195
+
+weighted avg       1.00      1.00      1.00     12195
 
 ---
 
